@@ -1,30 +1,27 @@
-// Run on an agent where we want to use Go
 pipeline{
     agent any
-    environment{
-        root= "/usr/local/go/bin/go"
-        scmUrl='https://github.com/hprks/sample-go-jenkins.git'
+    environment {
+        // root = "go"
+        branch = "main"
+        scmUrl = "https://github.com/hariadiaf/sample-go-jenkins.git"
     }
-    stages{
-        stage("Go Version"){
-            steps{
-                sh "${root} version"
+    stages {
+        stage("Git Clone") {
+            steps {
+                git branch: "${branch}", url: "${scmUrl}"
             }
         }
-        stage("Git Clone"){
-            steps{
-                git url: "${scmUrl}"
+        
+        stage("Go Dockerize") {
+            steps {
+                sh "docker build -t go-sample-jenkins ."
             }
         }
-        stage("Go Test"){
-            steps{
-                sh "${root} test ./... -cover"
+        
+        stage("Deploy") {
+            steps {
+                echo "DEPLOY SUCCESS"
             }
-        }
-        stage("Go Build"){
-            steps{
-                 sh "${root} build ./..."         
-            }
-        }                        
+        }        
     }
 }
