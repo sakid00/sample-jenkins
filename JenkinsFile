@@ -2,13 +2,12 @@ pipeline{
     agent any
     environment {
         // root = "go"
-        branch = "main"
-        scmUrl = "https://github.com/hariadiaf/sample-go-jenkins.git"
+        scmUrl = "https://github.com/sakid00/sample-jenkins.git"
     }
     stages {
         stage("Git Clone") {
             steps {
-                git branch: "${branch}", url: "${scmUrl}"
+                git url: "${scmUrl}"
             }
         }
         
